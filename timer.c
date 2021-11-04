@@ -1,17 +1,19 @@
 #include "timer.h"
 
 void timer_init() {
-    //Atmega HZ / Prescale = Timer0
-    /*16000000 / 1024 = 15625
-   *0,01 * 15625 = 156 - 1
-   */
+/*
+    PWM FREQUENCY:
+     16000000/64=250000
+    pwm= time0/ top = 250000/255 = 980hz
+*/
 
     //sets time0 to ctc.
     TCCR0A |= (1 << WGM01);
-    //prescaler 1024
-    TCCR0B |= (1 << CS00) | (1 << CS02);
-    //output compare register
-    OCR0A = 155;
+    TCCR0A |= (1 << WGM00);
+    //prescale 64.
+    TCCR0B |= (1 << CS00) | (1 << CS01);
+    //set OC0A at BOTTOM, (non-inverting mode)
+    TCCR0A |= (1<<COM0A1);
     //Timer/Counter Register (8-bit)
     TCNT0 = 0;
 

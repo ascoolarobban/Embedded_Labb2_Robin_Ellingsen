@@ -1,5 +1,5 @@
+#include <util/delay.h>
 #include "led.h"
-#include "serial.h"
 #include "timer.h"
 
 
@@ -12,17 +12,13 @@ int main (void) {
 
 
     while (1) {
-        //Timer/Counter Interrupt Flag Register
-        if (TIFR0 & (1 << OCF0A)) {
-            TIFR0 |= (1 << OCF0A);
-            if (counter == 10) {
-                PORTB ^= (1 << BLUE8);
-                counter = 0;
-            }
-            else {
-                counter++;
-            }
-        }
+        OCR0A = 100;
+        _delay_ms(1000);
+        OCR0A = 50;
+        _delay_ms(1000);
+        OCR0A = 200;
+        _delay_ms(1000);
+
     }
     return 0;
 }
